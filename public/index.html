@@ -24,7 +24,7 @@
     <script defer src="/__/firebase/9.6.4/firebase-analytics-compat.js"></script>
     <script defer src="/__/firebase/9.6.4/firebase-remote-config-compat.js"></script>
     <script defer src="/__/firebase/9.6.4/firebase-performance-compat.js"></script>
-    <!-- 
+    <!--
       initialize the SDK after all desired features are loaded, set useEmulator to false
       to avoid connecting the SDK to running emulators.
     -->
@@ -43,14 +43,15 @@
         body, #message { margin-top: 0; background: white; box-shadow: none; }
         body { border-top: 16px solid #ffa100; }
       }
-      header{ background-color: skyblue; padding: 5px 20px 5px 20px;}
-      .container{background-color: burlywood;padding: 10px;margin-top: 5px}
+      { }
+      body{min-height: 90%;}
+      .container{background-color: #ffc466;padding: 10px;margin-top: 5px;margin-bottom: 5px}
     </style>
   </head>
-  <body>
-    <header>
+  <body style="background-color: #ffe1b2">
+    <div style="background-color: #7f6233;color: #ECEFF1; padding: 5px 20px 5px 20px;">
       <h1>Mobile and Web Development</h1>
-    </header>
+    </div>
     <div class="container">
       <h2>Introduce</h2>
       <table>
@@ -67,14 +68,15 @@
           <td>SC-CS</td>
         </tr>
       </table>
+      <a href="https://github.com/basdidon/webApp"><img src="img/GithubLogo.png" style="width: 40px;height: 40px; padding: 8px;"></a>
       </div>
       <div class="container">
       <section>
         <h3>worklist :</h3>
         <ul>
-          <li><a href="work01.html">Work01</a></li>
-          <li><a href="work02.html">Work02</a></li>
-          <li><a href="work03.html">Work03</a></li>
+          <li><a href="work01.html">Work 1: JQuery and Bootstrap</a></li>
+          <li><a href="work02.html">Work 2: เกมจับคู่ภาพ โดยใช้ VueJS</a></li>
+          <li><a href="work03.html">Work 3</a></li>
         </ul>
       </section>
     </div>
@@ -99,13 +101,13 @@
         try {
           let app = firebase.app();
           let features = [
-            'auth', 
-            'database', 
+            'auth',
+            'database',
             'firestore',
             'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
+            'messaging',
+            'storage',
+            'analytics',
             'remoteConfig',
             'performance',
           ].filter(feature => typeof app[feature] === 'function');
