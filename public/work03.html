@@ -1,10 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-</body>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <title>Work 3: เกมจับคู่ภาพ โดยใช้ AngularJS</title>
+
+        <style>
+            img{width: 80px;height: 80px;}
+        </style>
+    </head>
+    <body ng-app="app" ng-controller="game">
+        <div class="card">
+            <div class="card-header">{{title}}</div>
+            <div class="card-body">
+                <div ng-show="state==0">
+                    <button ng-click="startGame()" class="btn btn-success">เริ่มเล่น</button>
+                    <a href="index.html" class="btn btn-danger">กลับหน้าหลัก</a>
+                </div>
+                <div ng-show="state==1">
+                    <div class="row text-center">
+                        <div class="col-3 pic" ng-repeat="c in cards">
+                            <img ng-if="c.s==0" ng-click="imgClick(c)" src="img/0.png">
+                            <img ng-if="c.s==1" ng-src="img/{{c.t}}.png">
+                        </div>
+                    </div>
+                    <button ng-click="state=0" class="btn btn-danger">ออกจากเกม</button>
+                </div>
+                <div ng-show="state==2">
+                    <h1>คุณชนะแล้ว เก่งมาก</h1><br>
+                    <button ng-click="state=0" class="btn btn-success">OK</button>
+                </div>
+            </div>
+            <div class="footer-body">{{footer}}</div>
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script>
+            var app = angular.module("app", []);
+            app.controller("game", function($scope,$timeout) {
+                $scope.title = "Work 3: เกมจับคู่ภาพ โดยใช้ AngularJS";
+                $scope.footer = "593020442-1 นาย พงศธร โสลุน sc-cs";
+                $scope.state = 0;
+                $scope.cards=[];
+                $scope.cards_opened=[];
+                $scope.cards_count=0;
+
+                $scope.startGame = function (){
+                    $scope.state = 1;
+                    $scope.cards=[];
+                    $scope.cards_opened=[];
+                    $scope.cards_count=16;
+                    for(var i=1;i<=8;i++){
+                        $scope.cards.push({t:i,s:0});
+                        $scope.cards.push({t:i,s:0});
+                    }
+                    for(var i=1;i<100;i++){
+                        var a=Math.round(Math.random()*15);
+                        var b=Math.round(Math.random()*15);
+                        var t=$scope.cards[a];
+                        $scope.cards[a]=$scope.cards[b];
+                        $scope.cards[b]=t;
+                    }
+                    var key = []
+                    for (var i=0;i<$scope.cards.length;i++){
+                        key.push($scope.cards[i].t)
+                    }
+                    console.log(key)
+                },
+
+                $scope.imgClick = function (c){
+                    if($scope.cards_opened.length<2){
+                        c.s = 1;
+                        $scope.cards_opened.push(c);
+                        if($scope.cards_opened.length===2){
+                            $timeout($scope.checkCard,1000);
+                        }
+
+                    }
+                }
+
+                $scope.checkCard = function () {
+                    // ให้  a และ b card ทั้ง 2 ใบที่เปิดอยู่
+                    var a=$scope.cards_opened[0];
+                    var b=$scope.cards_opened[1];
+                    $scope.cards_opened=[];
+                    if(a.t===b.t){  // รูปตรงกัน
+                        a.s=2;      // s=2 หมายถึงลบภาพออก
+                        b.s=2;
+                        $scope.cards_count -= 2;
+                    }else{
+                        a.s=0;    // s=0 หมายถึง ปิดภาพ
+                        b.s=0;
+                    }
+                    if($scope.cards_count===0){  // ไม่เหลือ card บนจอ
+                        $scope.state = 2;          // เปลี่ยน state เป็น 2 เพื่อแสดงหน้า ชนะ
+                    }
+                }
+            });
+
+        </script>
+    </body>
 </html>
